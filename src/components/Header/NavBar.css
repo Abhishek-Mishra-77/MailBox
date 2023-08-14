@@ -1,0 +1,9 @@
+.container-fluid {
+  padding: 10px;
+  background-color: #5CE0D8;
+}
+
+.navbar-brand{
+    font-size: 32px;
+    font-weight: bold;
+}

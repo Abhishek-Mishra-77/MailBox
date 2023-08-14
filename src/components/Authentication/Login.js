@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import './Login.css';
+import { useNavigate } from 'react-router-dom';
+
+
 
 const Login = () => {
 
@@ -9,6 +12,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [confirmPassword, setconfirmPassword] = useState('');
     const [misMatch, setMisMatch] = useState(false);
+    const navigate = useNavigate();
 
 
 
@@ -17,9 +21,8 @@ const Login = () => {
         console.log(password, email, confirmPassword)
 
         try {
-
-            if (password === confirmPassword) {
-                const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDaCVXSzE0kTKrQVuN57BN1iV-xPLA-6Xo', {
+            if (isLogin) {
+                const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDaCVXSzE0kTKrQVuN57BN1iV-xPLA-6Xo', {
                     method: 'POST',
                     body: JSON.stringify({
                         email: email,
@@ -32,7 +35,9 @@ const Login = () => {
                 })
                 if (response.ok) {
                     const data = await response.json();
-                    console.log(data);
+                    localStorage.setItem('token', data.idToken)
+                    localStorage.setItem('email', data.email)
+                    navigate('/')
                 }
                 else {
                     const data = await response.json();
@@ -43,13 +48,42 @@ const Login = () => {
 
                     throw new Error(errroMessage);
                 }
-
             }
             else {
-                setMisMatch(true)
-                setTimeout(() => {
-                    setMisMatch(false)
-                }, 3000)
+
+                if (password === confirmPassword) {
+                    const response = await fetch('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDaCVXSzE0kTKrQVuN57BN1iV-xPLA-6Xo', {
+                        method: 'POST',
+                        body: JSON.stringify({
+                            email: email,
+                            password: password,
+                            returnSecureToken: true
+                        }),
+                        headers: {
+                            'Content-Type': 'applications/json'
+                        }
+                    })
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log(data);
+                    }
+                    else {
+                        const data = await response.json();
+                        let errroMessage = 'Authentication fails!';
+                        if (data && data.error && data.error.message) {
+                            errroMessage = data.error.message
+                        }
+
+                        throw new Error(errroMessage);
+                    }
+
+                }
+                else {
+                    setMisMatch(true)
+                    setTimeout(() => {
+                        setMisMatch(false)
+                    }, 3000)
+                }
             }
         }
         catch (error) {

@@ -1,9 +1,11 @@
 import React from 'react';
 import './NavBar.css';
+import { Link } from 'react-router-dom';
 
 const NavBar = () => {
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary navbar-main">
+
             <div className="container-fluid">
                 <a className="navbar-brand" href="#">BeyondMailbox</a>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,7 +14,10 @@ const NavBar = () => {
                 <div className="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className="navbar-nav me-auto mb-2 mb-lg-0">
                         <li className="nav-item">
-                            <a className="nav-link active" aria-current="page" href="#">Home</a>
+                            <Link to={'/'} className="nav-link active" aria-current="page" href="#">Home</Link>
+                        </li>
+                        <li className="nav-item">
+                            <Link to={'compose'} className="nav-link active" aria-current="page" href="#">Compose</Link>
                         </li>
                         <li className="nav-item">
                             <a className="nav-link" href="#">Link</a>
@@ -29,7 +34,7 @@ const NavBar = () => {
                             </ul>
                         </li>
                         <li className="nav-item">
-                            <a className="nav-link" aria-disabled="false">Login</a>
+                            <Link to={'/auth'} className="nav-link" href="#">Login</Link>
                         </li>
                     </ul>
                     <div>

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import './Login.css';
+import NavBar from '../Header/NavBar';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -105,64 +106,69 @@ const Login = () => {
 
 
     return (
-        <div> <div className='container auth' style={{ width: '40%' }}>
-            <div className='text-center mt-2'>
-                <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
-                {!isLogin ? <h6>{misMatch && 'Password Mismatch!'}</h6> : ''}
-            </div>
-            <form onSubmit={onSubmitHandler}>
-                <div className="mb-4">
-                    <label htmlFor="exampleInputPassword1" className="form-label">𝗬𝗼𝘂𝗿 𝗘𝗺𝗮𝗶𝗹:</label>
-                    <input
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        type="email"
-                        required
-                        className="form-control"
-                        id="exampleInputPassword1" />
-                </div>
-                <div className="mb-4">
-                    <label htmlFor="exampleInputEmail1" className="form-label"> 𝗣𝗮𝘀𝘀𝘄𝗼𝗿𝗱
-                        :</label>
-                    <input
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        type="password"
-                        required
-                        className="form-control"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp" />
-                </div>
-                {!isLogin && <div className="mb-4">
-                    <label htmlFor="exampleInputEmail1" className="form-label">Confirm 𝗣𝗮𝘀𝘀𝘄𝗼𝗿𝗱
-                        :</label>
-                    <input
-                        value={confirmPassword}
-                        onChange={(e) => setconfirmPassword(e.target.value)}
-                        type="password"
-                        required
-                        className="form-control"
-                        id="exampleInputEmail1"
-                        aria-describedby="emailHelp" />
-                </div>}
-                {isLogin && <div className='form-text mt-2' style={{ fontWeight: 'bold' }} id='emailHelp'>
-                    <a>Forget password?</a>
-                </div>}
-                <div className='actions'>
-                    {<button>{isLogin ? 'Login' : 'Create Account'}</button>}
-                    {isLoading && <p>Sending request....</p>}
-                    <button
-                        style={{ fontWeight: 'bold', color: 'white' }}
-                        onClick={onLoginHandler}
-                        type='button'
-                        className='toggle'
-                    >
-                        {isLogin ? 'Create new account' : 'Login with existing account'}
-                    </button>
-                </div>
-            </form>
+        <>
+            <NavBar />
+            <div className='login'>
+                <div className='container auth' style={{ width: '40%' }}>
+                    <div className='text-center mt-2'>
+                        <h2>{isLogin ? 'Login' : 'Sign Up'}</h2>
+                        {!isLogin ? <h6>{misMatch && 'Password Mismatch!'}</h6> : ''}
+                    </div>
+                    <form onSubmit={onSubmitHandler}>
+                        <div className="mb-4">
+                            <label htmlFor="exampleInputPassword1" className="form-label">𝗬𝗼𝘂𝗿 𝗘𝗺𝗮𝗶𝗹:</label>
+                            <input
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                type="email"
+                                required
+                                className="form-control"
+                                id="exampleInputPassword1" />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="exampleInputEmail1" className="form-label"> 𝗣𝗮𝘀𝘀𝘄𝗼𝗿𝗱
+                                :</label>
+                            <input
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                type="password"
+                                required
+                                className="form-control"
+                                id="exampleInputEmail1"
+                                aria-describedby="emailHelp" />
+                        </div>
+                        {!isLogin && <div className="mb-4">
+                            <label htmlFor="exampleInputEmail1" className="form-label">Confirm 𝗣𝗮𝘀𝘀𝘄𝗼𝗿𝗱
+                                :</label>
+                            <input
+                                value={confirmPassword}
+                                onChange={(e) => setconfirmPassword(e.target.value)}
+                                type="password"
+                                required
+                                className="form-control"
+                                id="exampleInputEmail1"
+                                aria-describedby="emailHelp" />
+                        </div>}
+                        {isLogin && <div className='form-text mt-2' style={{ fontWeight: 'bold' }} id='emailHelp'>
+                            <a>Forget password?</a>
+                        </div>}
+                        <div className='actions'>
+                            {<button>{isLogin ? 'Login' : 'Create Account'}</button>}
+                            {isLoading && <p>Sending request....</p>}
+                            <button
+                                style={{ fontWeight: 'bold', color: 'white' }}
+                                onClick={onLoginHandler}
+                                type='button'
+                                className='toggle'
+                            >
+                                {isLogin ? 'Create new account' : 'Login with existing account'}
+                            </button>
+                        </div>
+                    </form>
 
-        </div></div>
+                </div>
+            </div>
+        </>
     )
 }
 

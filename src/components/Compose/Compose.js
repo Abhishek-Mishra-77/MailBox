@@ -30,7 +30,7 @@ const Compose = () => {
         body: JSON.stringify({
           email: email,
           subject: subject,
-          composeText: message
+          composeText: message,
         }),
         headers: {
           'Content-Type': 'applications/json'
@@ -63,7 +63,8 @@ const Compose = () => {
         body: JSON.stringify({
           email: email,
           subject: subject,
-          composeText: message
+          composeText: message,
+          check: true
         }),
         headers: {
           'Content-Type': 'applications/json'
@@ -91,7 +92,7 @@ const Compose = () => {
     setEmail('')
     setSubject('')
     setcomposeText('')
-    
+
   }
 
 

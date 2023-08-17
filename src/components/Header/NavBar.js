@@ -1,12 +1,16 @@
 import React from 'react';
 import './NavBar.css';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 
 const NavBar = () => {
+
+    const messageCount = useSelector(state => state.Unread.messageCount)
+
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary navbar-main">
             <div className="container-fluid">
-            <Link to={'/home'} className="navbar-brand" href="#">BeyondMailbox</Link>
+                <Link to={'/home'} className="navbar-brand" href="#">BeyondMailbox</Link>
                 <button className="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span className="navbar-toggler-icon"></span>
                 </button>
@@ -19,7 +23,9 @@ const NavBar = () => {
                             <Link to={'compose'} className="nav-link active" aria-current="page" href="#">Compose</Link>
                         </li>
                         <li className="nav-item">
-                            <Link to={'/inbox'} className="nav-link" href="#">Inbox</Link>
+
+                            <Link to={'/inbox'} className="nav-link" href="#">Inbox </Link>
+
                         </li>
                         <li className="nav-item dropdown">
                             <a className="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">

@@ -31,6 +31,7 @@ const Compose = () => {
           email: email,
           subject: subject,
           composeText: message,
+          id: Math.random().toString()
         }),
         headers: {
           'Content-Type': 'applications/json'
@@ -64,7 +65,8 @@ const Compose = () => {
           email: email,
           subject: subject,
           composeText: message,
-          check: true
+          check: true,
+          id: Math.random().toString()
         }),
         headers: {
           'Content-Type': 'applications/json'

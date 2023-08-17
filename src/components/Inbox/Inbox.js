@@ -56,13 +56,14 @@ const Inbox = () => {
             }
             getEmail()
         }
-    }, [email, mailMessage, messageCount, visible])
+    }, [email, mailMessage, messageCount, visible, dispatch])
 
 
     const textDetailsHandler = async (mailDetail) => {
+        console.log(mailDetail)
         dispatch(messageActions.visibility())
-        const { email, check, subject, composeText } = mailDetail;
-        dispatch(messageActions.mailDetail({ email, check: false, subject, composeText }))
+        const { email, check, subject, composeText, id } = mailDetail;
+        dispatch(messageActions.mailDetail({ email, check: false, subject, composeText, id }))
 
         if (check) {
             try {
@@ -76,7 +77,7 @@ const Inbox = () => {
                 if (response.ok) {
                     const data = await response.json();
                     const mailData = Object.values(data).find((mail) => {
-                        return mail.email === email && mail.subject === subject && mail.composeText === composeText
+                        return mail.id === id
                     })
                     const mailId = Object.keys(data).find((key) => data[key] === mailData);
 
@@ -89,7 +90,8 @@ const Inbox = () => {
                             check: false,
                             email: email,
                             subject: subject,
-                            composeText: composeText
+                            composeText: composeText,
+                            id: id
                         })
                     })
 
@@ -121,6 +123,69 @@ const Inbox = () => {
                 alert(error.message)
             }
         }
+    }
+
+    const emailRemoveHandler = async (emailDetail) => {
+
+        const { email, subject, composeText, check, id } = emailDetail;
+        const mailDetails = Object.values(receiveEmail);
+        const currEmails = mailDetails.filter((mail) => {
+            return mail.id !== id;
+        })
+        dispatch(messageActions.allEmails(currEmails))
+
+
+
+        try {
+            const response = await fetch('https://mailbox-53339-default-rtdb.firebaseio.com/receiveEmail.json', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+
+            if (response.ok) {
+                const data = await response.json();
+                const mailData = Object.values(data).find((mail) => {
+                    return mail.id === id;
+                })
+                const mailId = Object.keys(data).find((key) => data[key] === mailData);
+
+                const response1 = await fetch(`https://mailbox-53339-default-rtdb.firebaseio.com/receiveEmail/${mailId}.json`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'applications/json'
+                    }
+                })
+
+                if (response1.ok) {
+                    const data = await response1.json();
+                }
+                else {
+                    const data = await response1.json();
+                    let errorMessage = 'Fails!';
+                    if (data && data.error && data.error.message) {
+                        errorMessage = data.error.message;
+                    }
+                    throw new Error(errorMessage)
+
+                }
+
+            }
+            else {
+                const data = await response.json();
+                let errorMessage = 'Fails!';
+                if (data && data.error && data.error.message) {
+                    errorMessage = data.error.message;
+                }
+                throw new Error(errorMessage)
+            }
+        }
+        catch (error) {
+            console.log(error.message)
+            alert(error.message)
+        }
+
     }
 
 
@@ -220,15 +285,20 @@ const Inbox = () => {
                             <tbody>
                                 {receiveEmail.map((mail) => (
                                     <tr
-                                        onClick={() => textDetailsHandler(mail)}
                                         key={mail.id}>
                                         <th scope="row"><ion-icon name="chatbox-outline"></ion-icon></th>
-                                        <td>
+                                        <td
+                                            onClick={() => textDetailsHandler(mail)}>
                                             {mail.check && <img className='dotImage' src='https://tse1.mm.bing.net/th?id=OIP.HlXvcAlRI7rCgUl0X6PlOAHaJl&pid=Api&rs=1&c=1&qlt=95&w=94&h=121' alt='image' />}
                                             {mail.subject}
                                         </td>
                                         <td><ion-icon name="send-outline"></ion-icon>{mail.composeText}</td>
-                                        <td>{mail.email}</td>
+                                        <td
+
+                                            onClick={() => textDetailsHandler(mail)}>{mail.email} </td>
+                                        <td
+                                            onClick={() => emailRemoveHandler(mail)}
+                                        ><ion-icon name="trash-outline"></ion-icon></td>
                                     </tr>
                                 ))}
                             </tbody>
@@ -266,25 +336,3 @@ const Inbox = () => {
 
 export default Inbox;
 
-
-
-{/* <ion-icon name="checkmark-circle-outline"></ion-icon> */ }
-{/* <ion-icon name="checkmark-circle"></ion-icon> */ }
-{/* <table className="table">
-<thead>
-
-</thead>
-<tbody>
-    {receiveMails.map((mail) => (
-        <tr key={mail.id}>
-            <th scope="row"><ion-icon name="chatbox-outline"></ion-icon></th>
-            <td>
-                {mail.check && <img className='dotImage' src='https://tse1.mm.bing.net/th?id=OIP.HlXvcAlRI7rCgUl0X6PlOAHaJl&pid=Api&rs=1&c=1&qlt=95&w=94&h=121' alt='image' />}
-                {mail.subject}
-            </td>
-            <td><ion-icon name="send-outline"></ion-icon>{mail.composeText}</td>
-            <td>{mail.email}</td>
-        </tr>
-    ))}
-</tbody>
-</table> */}

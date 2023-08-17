@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 
-const initialState = { receiveMails: [], messageCount: 0, visible: false, mailMessage: {} };
+const initialState = { receiveMails: [], messageCount: 0, visible: false, mailMessage: {}, checkForRemovedata: {} };
 
 const messageSlice = createSlice({
     name: 'unread',
@@ -18,7 +18,13 @@ const messageSlice = createSlice({
         },
         allEmails(state, action) {
             state.receiveMails = action.payload
+
+        },
+        removeEmailHander(state, action) {
+            state.checkForRemovedata = action.payload
+            console.log(state.checkForRemovedata)
         }
+
     }
 })
 

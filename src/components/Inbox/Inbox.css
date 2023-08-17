@@ -70,38 +70,3 @@
   width: 15px;
   height: 20px;
 }
-
-.inboxMessage {
-  background-color: white;
-  height: 81vh;
-}
-
-.inboxMain {
-  width: 100%;
-  height: 80vh;
-}
-
-.subject {
-  font-weight: bold;
-  font-size: 30px;
-  color: gray;
-}
-
-.email {
-  margin-left: 20px;
-  font-size: 18px;
-}
-.message {
-  margin-left: 20px;
-  font-size: 22px;
-}
-
-.btn-outline-danger {
-  margin-left: 20px;
-}
-.unread{
-  color: gray;
-  font-weight: bold;
-  font-size: 20px;
-  margin-left: 20px;
-}

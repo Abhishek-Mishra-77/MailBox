@@ -19,16 +19,15 @@ const Compose = () => {
 
   const onSubmitHandler = async (e) => {
     e.preventDefault();
-
-
     const message = composeText.replace(/<[^>]*>/g, '');
+    const userEmail = localStorage.getItem('email');
 
 
     try {
-      const response = await fetch('https://mailbox-53339-default-rtdb.firebaseio.com/sendMail.json', {
+      const response = await fetch(`https://mailbox-53339-default-rtdb.firebaseio.com/${userEmail.replace(/[.@]/g, "")}/sendMail.json`, {
         method: 'POST',
         body: JSON.stringify({
-          email: email,
+          emailTo: email,
           subject: subject,
           composeText: message,
           id: Math.random().toString()
@@ -59,10 +58,10 @@ const Compose = () => {
 
 
     try {
-      const response = await fetch('https://mailbox-53339-default-rtdb.firebaseio.com/receiveEmail.json', {
+      const response = await fetch(`https://mailbox-53339-default-rtdb.firebaseio.com/${email.replace(/[.@]/g, "")}/receiveEmail.json`, {
         method: 'POST',
         body: JSON.stringify({
-          email: email,
+          emailFrom: userEmail,
           subject: subject,
           composeText: message,
           check: true,

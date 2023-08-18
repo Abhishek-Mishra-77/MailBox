@@ -8,10 +8,20 @@ import './Inbox.css';
 
 const Inbox = () => {
 
+    const theme = useSelector(state => state.Unread.theme)
     const messageCount = useSelector(state => state.Unread.messageCount)
+    const email = localStorage.getItem('email')
+
     const dispatch = useDispatch();
-    const onVisibleHandler = () => {
-        dispatch(messageActions.visibility())
+
+    const onInboxHandler = () => {
+        // dispatch(messageActions.allEmails([]))
+        dispatch(messageActions.mailTheme())
+    }
+
+    const onSendHandler = () => {
+        // dispatch(messageActions.allEmails([]))
+        dispatch(messageActions.mailTheme())
     }
 
 
@@ -33,7 +43,7 @@ const Inbox = () => {
                                     <Link to={'/compose'} className="btn btn-primary btn-lg">Compose</Link>
                                 </div>
                                 <div className="card-body">
-                                    <Link to={'/inbox/mail'} state={'inbox/mail'}><button type="button" className="btn btn-outline-info">Inbox
+                                    <Link to={'/inbox/mail'} onClick={onInboxHandler} ><button type="button" className={`btn ${theme ? 'btn-outline-info' : 'btn-info'}`}>Inbox
                                         {messageCount > 0 ? <span className='unread'>{messageCount}</span> : ''}
                                     </button></Link>
                                 </div>
@@ -47,7 +57,7 @@ const Inbox = () => {
                                     <button type="button" className="btn btn-outline-info">Drafts</button>
                                 </div>
                                 <div className="card-body">
-                                    <Link to={'/inbox/send'} state={'/inbox/send'}><button type="button" className="btn btn-outline-info">Send</button></Link>
+                                    <Link to={'/inbox/send'} onClick={onSendHandler} ><button type="button" className={`btn ${!theme ? 'btn-outline-info' : 'btn-info'}`}>Send</button></Link>
                                 </div>
                                 <div className="card-body">
                                     <button type="button" className="btn btn-outline-info">Spam</button>

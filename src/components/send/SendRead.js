@@ -1,16 +1,18 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import './InboxRead.css';
+import './SendRead.css';
 
-const InboxRead = () => {
+const SendRead = () => {
 
-    const mailMessage = useSelector(state => state.Unread.mailMessage);
+    const sendMessage = useSelector(state => state.Unread.sendMessage);
     const navigate = useNavigate();
 
     const onBackHandler = () => {
-        mailMessage.message === 'sendMail' ? navigate('/inbox/send') : navigate('/inbox/mail')
+        navigate('/sendMail')
     }
+
+    console.log(sendMessage)
 
 
 
@@ -29,11 +31,11 @@ const InboxRead = () => {
             <div>
                 <div className='inboxMain'>
                     <span><ion-icon style={{ width: '30px', height: '30px' }} name="person-circle-outline"></ion-icon></span>
-                    <span className='subject '>{mailMessage.subject}</span>
-                    <span className='email'>{mailMessage.message === 'sendMail' ? mailMessage.emailTo : mailMessage.emailFrom}</span>
+                    <span className='subject '>{sendMessage.subject}</span>
+                    <span className='email'>{sendMessage.emailTo}</span>
                     <hr />
                     <div className='mt-5 message'>
-                        <span>{mailMessage.composeText}</span>
+                        <span>{sendMessage.composeText}</span>
                     </div>
                 </div>
             </div>
@@ -41,4 +43,4 @@ const InboxRead = () => {
     )
 }
 
-export default InboxRead
+export default SendRead;

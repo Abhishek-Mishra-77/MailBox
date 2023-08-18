@@ -1,11 +1,19 @@
 import React from 'react';
 import './NavBar.css';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const NavBar = () => {
 
     const messageCount = useSelector(state => state.Unread.messageCount)
+    const navigate = useNavigate();
+
+
+    const onLogoutHandler = () => {
+        localStorage.removeItem('token');
+        localStorage.removeItem('email');
+        navigate('/auth')
+    }
 
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary navbar-main">
@@ -43,7 +51,7 @@ const NavBar = () => {
                         </li>
                     </ul>
                     <div>
-                        <button type="button" className="btn btn-outline-danger">Logout</button>
+                        <button onClick={onLogoutHandler} type="button" className="btn btn-outline-danger">Logout</button>
                     </div>
                 </div>
             </div>

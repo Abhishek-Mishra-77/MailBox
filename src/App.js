@@ -7,6 +7,7 @@ import Compose from './components/Compose/Compose';
 import InboxRead from './components/Inbox/InboxRead';
 import InboxMail from './components/Inbox/InboxMail'
 import Send from './components/send/Send';
+import PrivateRoute from './components/privateRoute/PrivateRoutes';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 
@@ -19,11 +20,14 @@ function App() {
           <Route exact path='/auth' element={<Login />} />
           <Route exact path='/' element={<Home />} />
           <Route exact path='*' element={<Home />} />
-          <Route path='/compose' element={<Compose />} />
-          <Route path='/inbox' element={<Inbox />} >
-            <Route path='mail' element={<InboxMail />} />
-            <Route path='inboxmessage' element={<InboxRead />} />
-            <Route path='send' element={<Send />} />
+
+          <Route element={<PrivateRoute />}>
+            <Route path='/compose' element={<Compose />} />
+            <Route path='/inbox' element={<Inbox />} >
+              <Route path='mail' element={<InboxMail />} />
+              <Route path='inboxmessage' element={<InboxRead />} />
+              <Route path='send' element={<Send />} />
+            </Route>
           </Route>
         </Routes>
       </Router>

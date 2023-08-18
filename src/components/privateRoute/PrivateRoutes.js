@@ -3,8 +3,8 @@ import { Outlet, Navigate } from 'react-router-dom';
 
 const PrivateRoute = () => {
 
-    const cartCtx = useContext(ItemProvideContext);
-    return cartCtx.isLoggegIn ? <Outlet /> : <Navigate to={'/inbox/inbox'} />
+    const tokenId = localStorage.getItem('token');
+    return tokenId ? <Outlet /> : <Navigate to={'/auth'} />
 
 }
 

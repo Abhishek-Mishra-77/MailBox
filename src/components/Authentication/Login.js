@@ -66,6 +66,7 @@ const Login = () => {
                     })
                     if (response.ok) {
                         const data = await response.json();
+                        alert('Account successfully created!')
                         console.log(data);
                     }
                     else {
@@ -91,14 +92,9 @@ const Login = () => {
             alert(error.message);
             console.log(error.message)
         }
-
-
-
-
         setPassword('');
         setconfirmPassword('');
     }
-
 
     const onLoginHandler = () => {
         setIsLogin((isLogin) => !isLogin)

@@ -19,7 +19,6 @@ const Login = () => {
 
     const onSubmitHandler = async (e) => {
         e.preventDefault();
-        console.log(password, email, confirmPassword)
 
         try {
             if (isLogin) {
@@ -67,7 +66,6 @@ const Login = () => {
                     if (response.ok) {
                         const data = await response.json();
                         alert('Account successfully created!')
-                        console.log(data);
                     }
                     else {
                         const data = await response.json();

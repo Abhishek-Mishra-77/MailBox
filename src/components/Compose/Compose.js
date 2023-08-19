@@ -40,7 +40,6 @@ const Compose = () => {
       if (response.ok) {
         const data = await response.json();
         alert('Email SuccessFully Send!')
-        console.log(data);
       }
       else {
         const data = await response.json();
@@ -74,7 +73,6 @@ const Compose = () => {
 
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
       }
       else {
         const data = await response.json();

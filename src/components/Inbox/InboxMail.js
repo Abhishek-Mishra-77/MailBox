@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { messageActions } from '../../store/Unread';
 import { useNavigate } from 'react-router-dom';
+import UseFetch from '../useFetch/UseFetch';
 import './InboxMail.css';
 
 const InboxMail = () => {
@@ -12,62 +13,13 @@ const InboxMail = () => {
     const navigate = useNavigate();
     const receiveEmail = useSelector(state => state.Unread.receiveMails)
 
-
-
-
-    useEffect(() => {
-        const getEmail = async () => {
-            console.log('receive')
-            try {
-                const response = await fetch(`https://mailbox-53339-default-rtdb.firebaseio.com/${email.replace(/[.@]/g, "")}/receiveEmail.json`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    }
-                })
-
-                if (response.ok) {
-                    const data = await response.json();
-                    let unreadMessageCount = 0;
-                    if (data) {
-                        const mailData = Object.values(data);
-                        for (let i = 0; i < mailData.length; i++) {
-                            if (mailData[i].check) {
-                                unreadMessageCount = unreadMessageCount + 1;
-                            }
-                        }
-                        console.log(data)
-                        dispatch(messageActions.inboxEmails(mailData))
-                        dispatch(messageActions.unreadMessage(unreadMessageCount))
-                    }
-
-                }
-                else {
-                    const data = await response.json();
-                    let errorMessage = 'Fails!';
-                    if (data && data.error && data.error.message) {
-                        errorMessage = data.error.message;
-                    }
-                    throw new Error(errorMessage)
-                }
-            }
-            catch (error) {
-                console.log(error.message)
-                alert(error.message)
-            }
-        }
-        getEmail()
-        const myInterval = setInterval(getEmail, 5500);
-    }, [])
-
-
+    UseFetch(`https://mailbox-53339-default-rtdb.firebaseio.com/${email.replace(/[.@]/g, "")}/receiveEmail.json`)
 
 
     const textDetailsHandler = async (mailDetail) => {
-        const message = 'inboxMail'
         dispatch(messageActions.visibility())
         const { emailFrom, check, subject, composeText, id } = mailDetail;
-        dispatch(messageActions.mailDetail({ emailFrom, check: false, subject, composeText, id, message: message }))
+        dispatch(messageActions.mailDetail({ emailFrom, check: false, subject, composeText, id }))
         navigate('/inbox/inboxmessage')
         if (check) {
             try {
@@ -137,7 +89,7 @@ const InboxMail = () => {
         const currEmails = mailDetails.filter((mail) => {
             return mail.id !== id;
         })
-        dispatch(messageActions.allEmails(currEmails))
+        dispatch(messageActions.inboxEmails(currEmails))
 
 
 

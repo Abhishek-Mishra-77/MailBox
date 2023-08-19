@@ -5,14 +5,15 @@ import './SendRead.css';
 
 const SendRead = () => {
 
+
+
     const sendMessage = useSelector(state => state.Unread.sendMessage);
     const navigate = useNavigate();
 
-    const onBackHandler = () => {
-        navigate('/sendMail')
+    const onBackHandlerFromSend = () => {
+        navigate('/inbox/send')
     }
 
-    console.log(sendMessage)
 
 
 
@@ -21,7 +22,7 @@ const SendRead = () => {
             <div>
                 <h5><ion-icon name="checkmark-circle-outline"></ion-icon> Text message
                     <button
-                        onClick={onBackHandler}
+                        onClick={onBackHandlerFromSend}
                         type="button"
                         className="btn btn-outline-danger"
                     >back</button>

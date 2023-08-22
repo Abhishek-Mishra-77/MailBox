@@ -10,6 +10,7 @@ const InboxRead = () => {
 
 
     const onBackHandlerFromInbox = () => {
+        localStorage.removeItem('id')
         navigate('/inbox/mail')
     }
 

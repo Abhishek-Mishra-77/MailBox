@@ -1,5 +1,7 @@
 import React, { useRef, useState } from 'react';
 import JoditEditor from 'jodit-react'
+import { useDispatch } from 'react-redux'
+import { messageActions } from '../../store/Unread';
 import NavBar from '../Header/NavBar';
 import './Compose.css';
 
@@ -12,7 +14,7 @@ const Compose = () => {
   const [email, setEmail] = useState('');
   const [subject, setSubject] = useState('');
   const [composeText, setcomposeText] = useState('');
-
+  const dispatch = useDispatch()
 
 
 
@@ -30,7 +32,6 @@ const Compose = () => {
           emailTo: email,
           subject: subject,
           composeText: message,
-          id: Math.random().toString()
         }),
         headers: {
           'Content-Type': 'applications/json'
@@ -39,6 +40,14 @@ const Compose = () => {
 
       if (response.ok) {
         const data = await response.json();
+        const { name } = data
+        const emailObj = {
+          emailTo: email,
+          subject: subject,
+          composeText: message,
+          id: name
+        }
+        dispatch(messageActions.sendEmails(emailObj))
         alert('Email SuccessFully Send!')
       }
       else {
@@ -64,7 +73,6 @@ const Compose = () => {
           subject: subject,
           composeText: message,
           check: true,
-          id: Math.random().toString()
         }),
         headers: {
           'Content-Type': 'applications/json'

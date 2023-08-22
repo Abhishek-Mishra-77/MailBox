@@ -14,6 +14,9 @@ const Send = () => {
     const sendMails = useSelector(state => state.Unread.sendMails)
 
 
+
+
+
     UseFetch(`https://mailbox-53339-default-rtdb.firebaseio.com/${email.replace(/[.@]/g, "")}/sendMail.json`)
 
 
@@ -25,52 +28,22 @@ const Send = () => {
         navigate('/inbox/sendRead')
     }
 
-    const emailRemoveHandler = async (emailDetail) => {
-
-        const { id } = emailDetail;
-        const mailDetails = Object.values(sendMails);
-        const currEmails = mailDetails.filter((mail) => {
-            return mail.id !== id;
-        })
-        dispatch(messageActions.sendEmails(currEmails))
 
 
+    const emailRemoveHandler = async (id) => {
+
+        dispatch(messageActions.removeSendMail(id))
 
         try {
-            const response = await fetch(`https://mailbox-53339-default-rtdb.firebaseio.com/${email.replace(/[.@]/g, "")}/sendMail.json`, {
-                method: 'GET',
+            const response = await fetch(`https://mailbox-53339-default-rtdb.firebaseio.com/${email.replace(/[.@]/g, "")}/sendMail/${id}.json`, {
+                method: 'DELETE',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'applications/json'
                 }
             })
 
             if (response.ok) {
                 const data = await response.json();
-                const mailData = Object.values(data).find((mail) => {
-                    return mail.id === id;
-                })
-                const mailId = Object.keys(data).find((key) => data[key] === mailData);
-
-                const response1 = await fetch(`https://mailbox-53339-default-rtdb.firebaseio.com/${email.replace(/[.@]/g, "")}/sendMail/${mailId}.json`, {
-                    method: 'DELETE',
-                    headers: {
-                        'Content-Type': 'applications/json'
-                    }
-                })
-
-                if (response1.ok) {
-                    const data = await response1.json();
-                }
-                else {
-                    const data = await response1.json();
-                    let errorMessage = 'Fails!';
-                    if (data && data.error && data.error.message) {
-                        errorMessage = data.error.message;
-                    }
-                    throw new Error(errorMessage)
-
-                }
-
             }
             else {
                 const data = await response.json();
@@ -79,14 +52,16 @@ const Send = () => {
                     errorMessage = data.error.message;
                 }
                 throw new Error(errorMessage)
+
             }
-        }
-        catch (error) {
+
+        } catch (error) {
             console.log(error.message)
-            alert(error.message)
         }
 
     }
+
+
 
 
 
@@ -96,7 +71,7 @@ const Send = () => {
                 <thead>
                 </thead>
                 <tbody>
-                    {sendMails && sendMails.map((mail) => (
+                    {sendMails.map((mail) => (
                         <tr
                             key={mail.id}>
                             <th scope="row"><ion-icon name="chatbox-outline"></ion-icon></th>
@@ -106,10 +81,9 @@ const Send = () => {
                             </td>
                             <td><ion-icon name="send-outline"></ion-icon>{mail.composeText}</td>
                             <td
-
                                 onClick={() => textDetailsHandler(mail)}>{mail.emailTo}</td>
                             <td
-                                onClick={() => emailRemoveHandler(mail)}
+                                onClick={() => emailRemoveHandler(mail.id)}
                             ><ion-icon name="trash-outline"></ion-icon></td>
                         </tr>
                     ))}

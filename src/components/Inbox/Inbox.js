@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { messageActions } from '../../store/Unread';
 import { useDispatch } from 'react-redux';
@@ -10,18 +10,17 @@ const Inbox = () => {
 
     const theme = useSelector(state => state.Unread.theme)
     const messageCount = useSelector(state => state.Unread.messageCount)
+    const [them, setTheme] = useState(false);
     const email = localStorage.getItem('email')
 
     const dispatch = useDispatch();
 
     const onInboxHandler = () => {
-        // dispatch(messageActions.allEmails([]))
-        dispatch(messageActions.mailTheme())
+        setTheme(true)
     }
 
     const onSendHandler = () => {
-        // dispatch(messageActions.allEmails([]))
-        dispatch(messageActions.mailTheme())
+        setTheme(true)
     }
 
 
@@ -43,7 +42,7 @@ const Inbox = () => {
                                     <Link to={'/compose'} className="btn btn-primary btn-lg">Compose</Link>
                                 </div>
                                 <div className="card-body">
-                                    <Link to={'/inbox/mail'} onClick={onInboxHandler} ><button type="button" className={`btn ${theme ? 'btn-outline-info' : 'btn-info'}`}>Inbox
+                                    <Link to={'/inbox/mail'} onClick={onInboxHandler} ><button type="button" className='btn btn-outline-info'>Inbox
                                         {messageCount > 0 ? <span className='unread'>{messageCount}</span> : ''}
                                     </button></Link>
                                 </div>
@@ -57,7 +56,7 @@ const Inbox = () => {
                                     <button type="button" className="btn btn-outline-info">Drafts</button>
                                 </div>
                                 <div className="card-body">
-                                    <Link to={'/inbox/send'} onClick={onSendHandler} ><button type="button" className={`btn ${!theme ? 'btn-outline-info' : 'btn-info'}`}>Send</button></Link>
+                                    <Link to={'/inbox/send'} onClick={onSendHandler} ><button type="button" className='btn btn-outline-info'>Send</button></Link>
                                 </div>
                                 <div className="card-body">
                                     <button type="button" className="btn btn-outline-info">Spam</button>

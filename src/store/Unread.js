@@ -8,9 +8,8 @@ const initialState = {
     visible: false,
     mailMessage: {},
     sendMessage: {},
-    checkForRemovedata: {},
-    theme: false
 };
+
 
 const messageSlice = createSlice({
     name: 'unread',
@@ -29,17 +28,42 @@ const messageSlice = createSlice({
             state.sendMessage = action.payload
         },
         inboxEmails(state, action) {
-            state.receiveMails = action.payload
+            const newObj = action.payload
+            const existingEmail = state.receiveMails.find((email) => email.id === newObj.id)
+            if (!existingEmail) {
+                state.receiveMails.push({
+                    composeText: newObj.composeText,
+                    emailFrom: newObj.emailFrom,
+                    subject: newObj.subject,
+                    id: newObj.id,
+                    check: newObj.check
+                })
+            }
+            else {
+                existingEmail.check = newObj.check
+            }
+        },
+        removeInboxMail(state, action) {
+            const id = action.payload
+            state.receiveMails = state.receiveMails.filter((email) => email.id !== id)
+
         },
         sendEmails(state, action) {
-            state.sendMails = action.payload
+            const newObj = action.payload
+            const existingEmail = state.sendMails.find((email) => email.id === newObj.id)
+            if (!existingEmail) {
+                state.sendMails.push({
+                    composeText: newObj.composeText,
+                    emailTo: newObj.emailTo,
+                    subject: newObj.subject,
+                    id: newObj.id
+                })
+            }
         },
-        removeEmailHander(state, action) {
-            state.checkForRemovedata = action.payload
+        removeSendMail(state, action) {
+            const id = action.payload
+            state.sendMails = state.sendMails.filter((email) => email.id !== id)
         },
-        mailTheme(state) {
-            state.theme = !state.theme
-        }
     }
 })
 
